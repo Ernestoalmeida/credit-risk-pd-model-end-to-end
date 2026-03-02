@@ -1,0 +1,47 @@
+import pandas as pd
+from sklearn.model_selection import train_test_split
+from sklearn.linear_model import LogisticRegression
+from sklearn.metrics import roc_auc_score
+import joblib
+
+
+def load_data(path):
+    df = pd.read_csv(path)
+    return df
+
+
+def preprocess(df):
+    X = df.drop("default_12m", axis=1)
+    y = df["default_12m"]
+    return X, y
+
+
+def train_model(X_train, y_train):
+    model = LogisticRegression(max_iter=1000)
+    model.fit(X_train, y_train)
+    return model
+
+
+def evaluate(model, X_test, y_test):
+    preds = model.predict_proba(X_test)[:, 1]
+    auc = roc_auc_score(y_test, preds)
+    print(f"AUC: {auc:.4f}")
+    return auc
+
+
+def main():
+    df = load_data("data/credit_data.csv")
+    X, y = preprocess(df)
+
+    X_train, X_test, y_train, y_test = train_test_split(
+        X, y, test_size=0.3, stratify=y, random_state=42
+    )
+
+    model = train_model(X_train, y_train)
+    evaluate(model, X_test, y_test)
+
+    joblib.dump(model, "models/pd_model.pkl")
+
+
+if __name__ == "__main__":
+    main()
