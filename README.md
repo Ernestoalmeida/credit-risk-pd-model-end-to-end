@@ -1,12 +1,7 @@
 # credit-risk-pd-model-end-to-end
 12-month Probability of Default (PD) model with AUC/KS evaluation, calibration analysis, and approval vs expected loss simulation.
 
----
 
-## README 2 — PD (Credit Risk)  
-Repo sugerido: `credit-risk-pd-model-end-to-end`
-
-```markdown
 # Credit Risk PD Model — End-to-End Implementation
 
 ## 📌 Overview
